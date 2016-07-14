@@ -11,17 +11,17 @@ def get_cur_time():
     now_time = datetime.datetime.now()	# Текущая дата со временем
     cur_hour = now_time.hour
     cur_minute = now_time.minute
-    last_min = cur_minute % 10   	# последняя минута (например 38 -> 8)
+    last_min = cur_minute % 10   	    # последняя минута (например 38 -> 8)
 
-    lc_hour = sklon(cur_hour,u' час',u' часа',u' часов')		# склоняем "час"
-    lc_minute = sklon(cur_minute,u' минута',u' минуты',u' минут')	# склоняем "минуту"
+    lc_hour = sklon(cur_hour,' час',' часа',' часов')		 # склоняем "час"
+    lc_minute = sklon(cur_minute,' минута',' минуты',' минут')	 # склоняем "минуту"
 
    # корректровка один и два - на одна, две
-    if cur_minute == 1: say_time = str(cur_hour) + lc_hour + u" одна минута"
-    elif last_min == 1 and cur_minute != 11: say_time = str(cur_hour) + lc_hour + " " + str(cur_minute-1) + u" одна минута"
-    elif cur_minute == 2: say_time = str(cur_hour) + lc_hour + u" две минуты"
-    elif last_min == 2 and cur_minute != 12: say_time = str(cur_hour) + lc_hour + " " + str(cur_minute-2) + u" две минуты"
-    elif cur_minute == 0: say_time = str(cur_hour) + lc_hour + u" ровно"
+    if cur_minute == 1: say_time = str(cur_hour) + lc_hour + " одна минута"
+    elif last_min == 1 and cur_minute != 11: say_time = str(cur_hour) + lc_hour + " " + str(cur_minute-1) + " одна минута"
+    elif cur_minute == 2: say_time = str(cur_hour) + lc_hour + " две минуты"
+    elif last_min == 2 and cur_minute != 12: say_time = str(cur_hour) + lc_hour + " " + str(cur_minute-2) + " две минуты"
+    elif cur_minute == 0: say_time = str(cur_hour) + lc_hour + " ровно"
     else: say_time = str(cur_hour) + lc_hour + " " + str(cur_minute) + lc_minute
 
     return say_time

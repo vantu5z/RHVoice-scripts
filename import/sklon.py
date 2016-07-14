@@ -7,6 +7,7 @@ import string
 
 def sklon(n, form1, form2, form5):
 
+    n = abs(n)		# убираем минус, если есть
     n  = n % 100	# две последних цифры
     n1 = n % 10		# последняя цифра
 

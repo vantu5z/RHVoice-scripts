@@ -27,6 +27,6 @@ def prepare_txt(text):
       text = text.replace("\n","")
       line = f.readline()
    except:
-      print('Ошибка загрузки или обработки словаря dic_prep')
+      print('Ошибка при загрузке или обработке словаря dic_prep')
  
    return text
