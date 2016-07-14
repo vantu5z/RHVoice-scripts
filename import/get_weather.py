@@ -19,28 +19,28 @@ def get_weather(apikey, Station_ID):
   parsed_json = json.loads(json_data)
 
   # выборка текущих данных о погоде
-  temp_c  = int(parsed_json['current_observation']['temp_c'])		# температура в цельсиях
-  weather_now = parsed_json['current_observation']['weather']		# погодные условия
+  temp_c  = int(parsed_json['current_observation']['temp_c'])           # температура в цельсиях
+  weather_now = parsed_json['current_observation']['weather']           # погодные условия
 
   # получаем дату на сегодняшний день
-  now_date = datetime.datetime.now()	
-  cur_day = now_date.day		# в виде числа
+  now_date = datetime.datetime.now()
+  cur_day = now_date.day                # в виде числа
 
-  sat_prognoz = ''	
-  fr_mark = 0		# отметка, что сегодня пятница
+  sat_prognoz = ''
+  fr_mark = 0                           # отметка, что сегодня пятница
 
   # получение прогноза на сегодня и на выходные
   for day in parsed_json['forecast']['simpleforecast']['forecastday']:
     
      if cur_day==day['date']['day']:  
-          weather_today = day['conditions']			# погодные условия на сегодняшний вечер
+          weather_today = day['conditions']                     # погодные условия на сегодняшний вечер
           if day['date']['weekday']=='Пятница':  fr_mark = 1
 
-     if day['date']['weekday']=='Суббота':			# получаем прогноз на субботу
+     if day['date']['weekday']=='Суббота':                      # получаем прогноз на субботу
           sub_prognoz = day['conditions']
           sub_temp = int(day['high']['celsius'])
 
-     if day['date']['weekday']=='Воскресенье':			# получаем прогноз на воскресенье
+     if day['date']['weekday']=='Воскресенье':                  # получаем прогноз на воскресенье
           vos_prognoz = day['conditions']
           vos_temp = int(day['high']['celsius'])
 

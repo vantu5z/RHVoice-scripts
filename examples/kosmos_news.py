@@ -5,14 +5,14 @@
 
 import string
 import sys
-import time 			  # для задержки
+import time                     # для задержки
 import urllib.request
 # полный путь до следующих скриптов, если они лежат отдельно от основного скрипта
 sys.path.insert(0, "полный_путь_до_скриптов/import")
-from get_cur_time import *	  # включает функцию получения времени и склонения часов/минут
-from RHVoice_say import *	  # включает функцию чтения текста RHVoice
+from get_cur_time import *      # включает функцию получения времени и склонения часов/минут
+from RHVoice_say import *       # включает функцию чтения текста RHVoice
 
-say_time = get_cur_time()  	  # получаем текущее время в формате строки  "HH час(ов) ММ минут(а)" 
+say_time = get_cur_time()       # получаем текущее время в формате строки  "HH час(ов) ММ минут(а)" 
 
 # откуда и куда качать новости
 url = "http://sdnnet.ru/rss_news/index.rss"
@@ -22,7 +22,7 @@ kosmos_last = 'полный_путь_до/tmp/kosmos.last'
 # получаем новости (представившись Мозилой)
 req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
 html = urllib.request.urlopen(req).read()
-str_h = html.decode(encoding='UTF-8') # декодируем байты в строку
+str_h = html.decode(encoding='UTF-8')           # декодируем байты в строку
 
 # записываем во временный файл
 f = open(local_filename, 'w+')
@@ -31,9 +31,9 @@ f.close()
 
 # получаем последнюю оглашённую новость
 try:
-  f2 = open(kosmos_last, 'r')   	 # если файл есть, то читаем из него
+  f2 = open(kosmos_last, 'r')            # если файл есть, то читаем из него
 except:
-  f2 = open(kosmos_last, 'w+')  	 # в случае если файла нет, то создаем
+  f2 = open(kosmos_last, 'w+')           # в случае если файла нет, то создаем
 last_line = f2.readline()
 last_line = last_line.replace("\n","")   # удаляем символы новой строки, если есть
 f2.close()
@@ -46,7 +46,7 @@ line = f.readline()             # читаем первую строку из ф
 
 while line:
 
-    if "<title>" in line:             	    # фильтруем по строкам с названием новости
+    if "<title>" in line:                   # фильтруем по строкам с названием новости
       line = line.strip()                   # удаляем лишние пробелы
       line = line.replace("<title>","")
       line = line.replace("</title>",".")   # вконце новости ставим точку 

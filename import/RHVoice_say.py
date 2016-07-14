@@ -3,11 +3,11 @@
 # Функция чтения текста RHVocie при помощи Speech Dispatcher
 
 import subprocess
-from prepare_txt import *		# для подготовки текста
+from prepare_txt import *               # для подготовки текста
 
 def RHVoice_say(text): 
 
-  txt = prepare_txt(text)		# что-бы RHVocie не вспоткнулся при чтении непонятных ему символов
+  txt = prepare_txt(text)               # что-бы RHVocie не вспоткнулся при чтении непонятных ему символов
 
 # -e, --pipe-mode (Pipe from stdin to stdout plus Speech Dispatcher)
 # -w, --wait (Wait till the message is spoken or discarded)

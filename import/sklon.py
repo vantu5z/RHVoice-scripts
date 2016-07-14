@@ -7,9 +7,9 @@ import string
 
 def sklon(n, form1, form2, form5):
 
-    n = abs(n)		# убираем минус, если есть
-    n  = n % 100	# две последних цифры
-    n1 = n % 10		# последняя цифра
+    n = abs(n)          # убираем минус, если есть
+    n  = n % 100        # две последних цифры
+    n1 = n % 10         # последняя цифра
 
     if n>10 and n<20 : form=form5
     elif n1>1 and n1<5 : form=form2

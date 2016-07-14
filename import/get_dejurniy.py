@@ -13,7 +13,7 @@ def get_dejurniy(cur_date):
    # подгружаем файл
    f = open(dejurstvo, 'r')
    line = f.readline()
-   b = "0"			# если нет дежурного, то вернётся "0"
+   b = "0"                      # если нет дежурного, то вернётся "0"
 
    # ищем дежурного
    while line:
