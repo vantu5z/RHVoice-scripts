@@ -3,7 +3,7 @@
 # Функция чтения текста RHVocie при помощи Speech Dispatcher
 
 import subprocess
-from prepare_txt import *               # для подготовки текста
+from imports.prepare_txt import *       # для подготовки текста
 
 def RHVoice_say(text): 
 

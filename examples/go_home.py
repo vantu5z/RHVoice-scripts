@@ -9,15 +9,14 @@ import time                       # для задержки
 import alsaaudio                  # для управления громкостью
 import sys
 import datetime
-# полный путь до следующих скриптов, если они лежат отдельно от основного скрипта
-sys.path.insert(0, "полный_путь_до_скриптов/import")
-from get_cur_time import *        # для получения времени в нужном формате
-from RHVoice_say import *         # для чтения текста RHVoice
-from fest_say import *            # для чтения текста Фестевалем
-from get_citat import *           # для получения цитаты
-from sklon import *               # для склонения числительных
-from get_dejurniy import *        # для получения дежурного по дате
-from get_weather import *         # для получения погоды
+# импортируем вспомогательные функции, которые лежат в 'imports'
+from imports.get_cur_time import *           # для получения времени в нужном формате
+from imports.RHVoice_say import *            # для чтения текста RHVoice
+from imports.fest_say import *               # для чтения текста Фестевалем
+from imports.get_citat import *              # для получения цитаты
+from imports.sklon import *                  # для склонения числительных
+from imports.get_dejurniy import *           # для получения дежурного по дате
+import imports.get_weather as WG_weather     # для получения погоды из wunderground.com
 
 # данные для получения погоды (НЕОБХОДИМО ЗАПОЛНИТЬ!)
 apikey = 'ключ'                   # ключ от wunderground.com
@@ -35,22 +34,25 @@ dejurniy_2 = get_dejurniy(tom_date_str)
 
 say_time = get_cur_time()               # получаем текущее время в формате строки "HH час(ов) ММ минут(а)"
 
-text_weekend = ''
 # если есть подключение к интернет, то получаем и обрабатываем данные о погоде
 try:
-  weather = get_weather(apikey, Station_ID)
+  weather = WG_weather.get(apikey, Station_ID)
 
   grad=sklon(weather[0], "градус", "градуса", "градусов")       # склоняем градус
 
   # собираем спич
   text = "Время " + say_time + ". За окном " + weather[1] + ". Температура " + str(weather[0]) + " " + grad + ". К вечеру " + weather[2] + "."
-  # и прогноз на выходные
+  
+  # и прогноз на выходные, если нужно
   if weather[3]==1:
-     text_weekend = "в субботу " + str(weather[4]) + " " + sklon(weather[4], "градус", "градуса", "градусов") + ' и ' + weather[5] + ", а в воскресенье " + str(weather[6]) + " " + sklon(weather[6], "градус", "градуса", "градусов") + " и " + weather[7] + "."
-
+     text_weekend = ("В субботу " + str(weather[4]) + " " + sklon(weather[4], "градус", "градуса", "градусов") + " и " + weather[5] + 
+                     ", а в воскресенье " + str(weather[6]) + " " + sklon(weather[6], "градус", "градуса", "градусов") + " и " + weather[7] + ".")
+  else: text_weekend = ''
+  
 # если нет интернета, то
 except:
   text = "Время " + say_time + ". сведения о погоде получить не удалось."
+  text_weekend = ''
 
 m = alsaaudio.Mixer()   # определяем alsaaudio.Mixer для изменения громкости
 m.setvolume(95)         # громкость на 95
@@ -70,7 +72,9 @@ time.sleep(5)                                   # задержка между с
 if dejurniy == "0": RHVoice_say("Обновите график дежурств.")
 else: RHVoice_say("Сегодня дежурит " + dejurniy + ".")
 
-if text_weekend: RHVoice_say("Всем удачных выходых!")   # если завтра точно выходные
+if text_weekend: 
+   time.sleep(10)
+   RHVoice_say("Кстати! Всем удачных выходных!")   # если завтра точно выходные
 else:
    if dejurniy_2 == "0" and dejurniy != "0":            # если есть дежурный на сегодня, а на завтра получить не удалось
          RHVoice_say("Похоже завтра выходной!")         # делаем предположение, что завтра не рабочий день
@@ -82,7 +86,7 @@ else:
 m.setvolume(75)
 time.sleep(30)
 
-# получаем цитату и говорим её, несколько раз через задержки
+# получаем цитаты и говорим их, несколько раз через задержки
 try:
  cit = get_citat()
  RHVoice_say(cit)

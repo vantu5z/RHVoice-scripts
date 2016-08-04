@@ -4,7 +4,7 @@
 
 import string
 import datetime
-from sklon import *
+from imports.sklon import *
 
 def get_cur_time():
     # получение текущего времени

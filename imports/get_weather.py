@@ -9,7 +9,7 @@ from urllib.request import urlopen
 import json
 import datetime
 
-def get_weather(apikey, Station_ID):
+def get(apikey, Station_ID):
   # собираем строку запроса
   req = ('http://api.wunderground.com/api/'+apikey+'/conditions/forecast/lang:RU/q/'+Station_ID+'.json')
 
