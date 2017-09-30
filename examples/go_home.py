@@ -1,12 +1,12 @@
 #!/usr/bin/python
 # coding: utf8
-# скрипт предназначен для объявления окончания рабочего дня
-# сообщает данные о погоде, а также прогноз на выходные
-# пока идут сборы домой - читает цитаты
+# Скрипт предназначен для объявления окончания рабочего дня.
+# Сообщает данные о погоде, а также прогноз на выходные.
+# Пока идут сборы домой - читает цитаты.
 
 import string
 import time                       # для задержки
-import alsaaudio                  # для управления громкостью
+#import alsaaudio                 # для управления громкостью
 import sys
 import datetime
 # импортируем вспомогательные функции, которые лежат в 'imports'
@@ -41,25 +41,31 @@ try:
   grad=sklon(weather[0], "градус", "градуса", "градусов")       # склоняем градус
 
   # собираем спич
-  text = "Время " + say_time + ". За окном " + weather[1] + ". Температура " + str(weather[0]) + " " + grad + ". К вечеру " + weather[2] + "."
-  
+  text = ("Время " + say_time + ". За окном " + weather[1] +
+          ". Температура " + str(weather[0]) + " " + grad +
+          ". К вечеру " + weather[2] + ".")
+
   # и прогноз на выходные, если нужно
   if weather[3]==1:
-     text_weekend = ("В субботу " + str(weather[4]) + " " + sklon(weather[4], "градус", "градуса", "градусов") + " и " + weather[5] + 
-                     ", а в воскресенье " + str(weather[6]) + " " + sklon(weather[6], "градус", "градуса", "градусов") + " и " + weather[7] + ".")
+     text_weekend = ("В субботу " + str(weather[4]) + " " +
+                     sklon(weather[4], "градус", "градуса", "градусов") +
+                     " и " + weather[5] + ", а в воскресенье " +
+                     str(weather[6]) + " " +
+                     sklon(weather[6], "градус", "градуса", "градусов") +
+                     " и " + weather[7] + ".")
   else: text_weekend = ''
-  
+
 # если нет интернета, то
 except:
   text = "Время " + say_time + ". сведения о погоде получить не удалось."
   text_weekend = ''
 
-m = alsaaudio.Mixer()   # определяем alsaaudio.Mixer для изменения громкости
-m.setvolume(95)         # громкость на 95
+#m = alsaaudio.Mixer()   # определяем alsaaudio.Mixer для изменения громкости
+#m.setvolume(95)         # громкость на 95
 
 fest_say(u"От совецкого информ бюро!")          # на мой взгляд, читает с большим выражением, чем RHVoice
 
-m.setvolume(80)
+#m.setvolume(80)
 
 RHVoice_say(text)
 if text_weekend: RHVoice_say(text_weekend)      # если сегодня пятница, то сообщим прогноз на выходные
@@ -83,7 +89,7 @@ else:
          RHVoice_say("И завтра тоже.")
       else: RHVoice_say("А завтра будет дежурить " + dejurniy_2 + ".")
 
-m.setvolume(75)
+#m.setvolume(75)
 time.sleep(30)
 
 # получаем цитаты и говорим их, несколько раз через задержки
@@ -118,7 +124,7 @@ except:
  time.sleep(5)
 
 time.sleep(70)
-m.setvolume(85)
+#m.setvolume(85)
 
 say_time = get_cur_time()
 

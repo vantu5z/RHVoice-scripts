@@ -1,9 +1,11 @@
 #!/usr/bin/python
 # coding: utf8
-# функция для получения погоды из wunderground.com, возвращает текущую температуру и погодные условия
-# а также прогноз на вечер и на выходные
-# для работы требуется apikey (ключ), его можно получить пройдя регистрацию на сайте,
-# там же можно узнать необходимую метеорологическую станцию
+# Функция для получения погоды с сайта wunderground.com.
+# Возвращает текущую температуру и погодные условия,
+# а также прогноз на вечер и на выходные.
+# Для работы требуется apikey (ключ),
+# его можно получить пройдя регистрацию на сайте,
+# там же можно узнать необходимую метеорологическую станцию.
 
 from urllib.request import urlopen
 import json
@@ -11,7 +13,8 @@ import datetime
 
 def get(apikey, Station_ID):
   # собираем строку запроса
-  req = ('http://api.wunderground.com/api/'+apikey+'/conditions/forecast/lang:RU/q/'+Station_ID+'.json')
+  req = ('http://api.wunderground.com/api/' + apikey +
+         '/conditions/forecast/lang:RU/q/' + Station_ID + '.json')
 
   # загружаем данные
   response    = urlopen(req)
@@ -19,8 +22,10 @@ def get(apikey, Station_ID):
   parsed_json = json.loads(json_data)
 
   # выборка текущих данных о погоде
-  temp_c  = int(parsed_json['current_observation']['temp_c'])           # температура в цельсиях
-  weather_now = parsed_json['current_observation']['weather']           # погодные условия
+  # температура в цельсиях
+  temp_c  = int(parsed_json['current_observation']['temp_c'])
+  # погодные условия
+  weather_now = parsed_json['current_observation']['weather']
 
   # получаем дату на сегодняшний день
   now_date = datetime.datetime.now()
@@ -28,19 +33,26 @@ def get(apikey, Station_ID):
 
   sat_prognoz = ''
   fr_mark = 0                           # отметка, что сегодня пятница
+  sub_temp = ''
+  sub_prognoz = ''
+  vos_temp = ''
+  vos_prognoz = ''
 
   # получение прогноза на сегодня и на выходные
   for day in parsed_json['forecast']['simpleforecast']['forecastday']:
-    
-     if cur_day==day['date']['day']:  
-          weather_today = day['conditions']                     # погодные условия на сегодняшний вечер
+
+     # погодные условия на сегодняшний вечер
+     if cur_day==day['date']['day']:
+          weather_today = day['conditions']
           if day['date']['weekday']=='Пятница':  fr_mark = 1
 
-     if day['date']['weekday']=='Суббота':                      # получаем прогноз на субботу
+     # прогноз на субботу
+     if day['date']['weekday']=='Суббота':
           sub_prognoz = day['conditions']
           sub_temp = int(day['high']['celsius'])
 
-     if day['date']['weekday']=='Воскресенье':                  # получаем прогноз на воскресенье
+     # прогноз на воскресенье
+     if day['date']['weekday']=='Воскресенье':
           vos_prognoz = day['conditions']
           vos_temp = int(day['high']['celsius'])
 
