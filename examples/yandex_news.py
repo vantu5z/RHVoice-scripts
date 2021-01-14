@@ -29,11 +29,19 @@ try:
       line = line.replace("<title>","")
       line = line.replace("</title>",".")
 
-      if line != "Яндекс.Новости: Главные новости." :   # пропускаем строку про главные новости
+      if line != "Яндекс.Новости: Главное." :   # пропускаем строку про главные новости
           print (line)
           RHVoice_say(line)
           time.sleep(1)
+          
+    if "<link>" in line:                                 # фильтруем по строкам с ссылкой на новость
+      line = line.strip()
+      line = line.replace("<link>","")
+      line = line.replace("</link>","")
 
+      if line != "https://news.yandex.ru/index.html?from=rss" :   # пропускаем лишние строки
+        print (line + "\n")
+      
     line = f.readline()    # следующая строка
 
   f.close()
